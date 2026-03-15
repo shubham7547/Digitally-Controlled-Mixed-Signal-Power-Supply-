@@ -1,6 +1,6 @@
 # Digitally Controlled Mixed-Signal Power Supply
 
-[![Microcontroller](https://img.shields.io/badge/MCU-Arduino%20Nano%20Every-blue.svg)](https://www.arduino.cc/)
+[![Microcontroller](https://img.shields.io/badge/MCU-Arduino%20Nano-blue.svg)](https://www.arduino.cc/)
 [![DAC](https://img.shields.io/badge/DAC-TLC5618A%20(12--bit%20SPI)-orange.svg)]()
 [![Display](https://img.shields.io/badge/Display-ILI9341%20320x240%20TFT-green.svg)]()
 [![EDA](https://img.shields.io/badge/EDA-KiCad-blueviolet.svg)](https://www.kicad.org/)
@@ -42,7 +42,7 @@ Developed at the **Centre for Electronic Design and Technology (CEDT)**, **Netaj
 Simpler DIY microcontroller-based power supplies often place the digital microcontroller inside the primary feedback loop or use PWM/software loops to regulate output voltage, leading to slow transient response, ADC latency, and stability issues.
 
 This design enforces a strict separation of concerns:
-1. **Digital Setpoint Domain:** The **Arduino Nano Every** and **TLC5618A 12-bit DAC** determine what target voltage/current limit is desired. They never carry load current and never sit directly inside the fast closed loop.
+1. **Digital Setpoint Domain:** The **Arduino Nano** and **TLC5618A 12-bit DAC** determine what target voltage/current limit is desired. They never carry load current and never sit directly inside the fast closed loop.
 2. **Analog Control Domain:** An **LM358 op-amp error amplifier** continuously compares the scaled output feedback against the DAC setpoint in real time, driving high-power series-pass transistors (**MJE2955T PNP**) instantaneously without digital latency.
 
 ---
@@ -56,7 +56,7 @@ flowchart TD
     Bridge --> RawDC["Raw DC Bus (~36V Peak)"]
 
     RawDC --> VR6["LM2575 Buck 1\nStep-down to 5.29V"]
-    VR6 --> MCU["Arduino Nano Every\n(5V Digital Rail)"]
+    VR6 --> MCU["Arduino Nano\n(5V Digital Rail)"]
 
     RawDC --> VR5["LM2575 Buck 2\nStep-down to 30.0V Rail"]
     VR5 --> OpAmp["LM358 Error Amplifier\n(Analog Rail)"]
@@ -86,7 +86,7 @@ flowchart TD
 | :--- | :--- | :--- |
 | **Output Voltage Range** | $0.000\text{ V}$ to $30.000\text{ V}$ | Continuously adjustable |
 | **Output Current Range** | $0.000\text{ A}$ to $1.000\text{ A}$ | Software-limited foldback |
-| **Microcontroller** | Arduino Nano Every | ATmega4809 @ 16 MHz |
+| **Microcontroller** | Arduino Nano | ATmega328P @ 16 MHz |
 | **DAC Resolution** | 12-bit ($4096\text{ steps}$) | TLC5618A Dual SPI DAC |
 | **DAC Reference Voltage** | $1.090\text{ V}$ | Shared with internal ADC reference |
 | **Voltage Control Gain** | $22.886\text{ V/V}$ | $V_{\text{out}} / V_{\text{dac}}$ |
@@ -133,7 +133,7 @@ To supply both digital control logic and high-voltage analog regulation without 
 
 ## Pin Assignment Table
 
-| Arduino Nano Every Pin | Signal Name | Connected To | Function / Description |
+| Arduino Nano Pin | Signal Name | Connected To | Function / Description |
 | :--- | :--- | :--- | :--- |
 | **D2** | `ENC_V_A` | Voltage Encoder Phase A | Hardware interrupt, quadrature phase A |
 | **D3** | `ENC_V_B` | Voltage Encoder Phase B | Quadrature phase B input |
@@ -184,7 +184,7 @@ Benchtop-Power-Supply/
 │   └── block_diagram.png                        # High-level system architecture block diagram
 ├── Code Files/
 │   └── adj_power_combined/
-│       └── adj_power_combined.ino               # Non-blocking firmware for Arduino Nano Every
+│       └── adj_power_combined.ino               # Non-blocking firmware for Arduino Nano
 ├── Datasheet/
 │   ├── LM2575.PDF                               # Step-down switching regulator datasheet
 │   ├── lm358.pdf                                # Dual operational amplifier datasheet
@@ -219,11 +219,11 @@ Install the following libraries via the Arduino Library Manager or place them in
 - **LCDWIKI_SPI** (Hardware SPI driver for ILI9341)
 
 ### Hardware Setup & Flashing
-1. Connect your **Arduino Nano Every** to your PC using a micro-USB cable.
+1. Connect your **Arduino Nano** to your PC via USB.
 2. Open `Code Files/adj_power_combined/adj_power_combined.ino` in Arduino IDE.
 3. Configure your IDE settings under **Tools**:
-   - **Board:** Arduino Nano Every (or megaAVR Boards)
-   - **Registers emulation:** None (ATMEGA4809 native)
+   - **Board:** Arduino Nano
+   - **Processor:** ATmega328P (or *ATmega328P (Old Bootloader)*)
    - **Port:** Select the corresponding COM port.
 4. Verify and **Upload** the firmware sketch.
 5. The ILI9341 display will illuminate and render the default UI with $0.000\text{ V}$ setpoint and $1.000\text{ A}$ current limit in **CV** mode.
