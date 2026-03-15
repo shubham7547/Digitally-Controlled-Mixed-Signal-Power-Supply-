@@ -6,7 +6,7 @@
 [![EDA](https://img.shields.io/badge/EDA-KiCad-blueviolet.svg)](https://www.kicad.org/)
 [![Date](https://img.shields.io/badge/Date-March%202026-lightgrey.svg)]()
 
-A high-performance, digitally controlled benchtop power supply that bridges digital precision with an ultra-fast analog regulation loop. The system delivers an adjustable **0 to 30.0 V** output at up to **3.0 A**, featuring dual rotary quadrature encoders with digit-level selection, high-resolution readbacks on a 2.8" color TFT display, and a non-blocking embedded firmware architecture.
+A high-performance, digitally controlled benchtop power supply that bridges digital precision with an ultra-fast analog regulation loop. The system delivers an adjustable **0 to 30.0 V** output at up to **1.0 A**, featuring dual rotary quadrature encoders with digit-level selection, high-resolution readbacks on a 2.8" color TFT display, and a non-blocking embedded firmware architecture.
 
 Developed at the **Centre for Electronic Design and Technology (CEDT)**, **Netaji Subhas University of Technology (NSUT), New Delhi**.
 
@@ -67,7 +67,7 @@ flowchart TD
     RawDC --> PassTrans["MJE2955T Power Transistor\nSeries-Pass Output Stage"]
     OpAmp -->|Drive Base| PassTrans
 
-    PassTrans --> Load["Output Terminal (0–30V, 0–3A)"]
+    PassTrans --> Load["Output Terminal (0–30V, 0–1A)"]
     Load --> Shunt["Low-Side Current Shunt (0.3 Ω)"]
 
     Load -->|Voltage Divider (R4/R5)| MCU_ADC_V["ADC Pin A1 (V_sense)"]
@@ -85,7 +85,7 @@ flowchart TD
 | Parameter | Specification | Notes |
 | :--- | :--- | :--- |
 | **Output Voltage Range** | $0.000\text{ V}$ to $30.000\text{ V}$ | Continuously adjustable |
-| **Output Current Range** | $0.000\text{ A}$ to $3.000\text{ A}$ | Software-limited foldback |
+| **Output Current Range** | $0.000\text{ A}$ to $1.000\text{ A}$ | Software-limited foldback |
 | **Microcontroller** | Arduino Nano Every | ATmega4809 @ 16 MHz |
 | **DAC Resolution** | 12-bit ($4096\text{ steps}$) | TLC5618A Dual SPI DAC |
 | **DAC Reference Voltage** | $1.090\text{ V}$ | Shared with internal ADC reference |
