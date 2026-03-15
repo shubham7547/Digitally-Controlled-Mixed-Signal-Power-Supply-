@@ -1,0 +1,6 @@
+# KiCad temporary and backup files
+*.kicad_prl
+*.kicad_sch-bak
+*-bak
+/Kicad Files/Adj_power/Adj_power-backups/
+/Kicad Files/Adj_power/fp-info-cache
